@@ -14,8 +14,7 @@ st.set_page_config(page_title="Anime Analysis Dashboard", layout="wide")
 # ===============================
 @st.cache_data
 def load_and_clean_data():
-  df = pd.read_csv("anime.csv")
-
+    df = pd.read_csv("anime.csv")
 
     # Keep relevant columns
     cols = ['title','type','episodes','members','score',
@@ -36,13 +35,13 @@ def load_and_clean_data():
 
     # Episode length categories
     def episode_category(ep):
-        if pd.isna(ep): 
+        if pd.isna(ep):
             return 'Unknown'
-        if ep <= 13: 
+        if ep <= 13:
             return 'Short'
-        elif ep <= 50: 
+        elif ep <= 50:
             return 'Medium'
-        else: 
+        else:
             return 'Long'
 
     if 'episodes' in df.columns:
@@ -55,9 +54,9 @@ def load_and_clean_data():
     # Popularity class (safe qcut)
     if 'members' in df.columns:
         df['popclass'] = pd.qcut(
-            df['members'], 
-            3, 
-            labels=['Low','Medium','High'], 
+            df['members'],
+            3,
+            labels=['Low','Medium','High'],
             duplicates='drop'
         )
 
@@ -90,8 +89,8 @@ st.sidebar.header("🔍 Filters")
 
 type_options = sorted(df['type'].dropna().unique().tolist())
 type_filter = st.sidebar.multiselect(
-    "Type", 
-    options=['All'] + type_options, 
+    "Type",
+    options=['All'] + type_options,
     default=['All']
 )
 
@@ -101,9 +100,9 @@ if 'year' in df.columns and df['year'].notna().any():
     year_max = int(df['year'].dropna().max())
 
     year_filter = st.sidebar.slider(
-        "Year", 
-        min_value=year_min, 
-        max_value=year_max, 
+        "Year",
+        min_value=year_min,
+        max_value=year_max,
         value=(year_min, year_max)
     )
 else:
@@ -150,9 +149,9 @@ with col1:
     fig1, ax1 = plt.subplots(figsize=(8,5))
     sns.histplot(filtered_df['rating'], bins=30, kde=True, ax=ax1)
     ax1.axvline(
-        filtered_df['rating'].mean(), 
-        color='red', 
-        linestyle='--', 
+        filtered_df['rating'].mean(),
+        color='red',
+        linestyle='--',
         label=f"Mean: {filtered_df['rating'].mean():.2f}"
     )
     ax1.legend()
@@ -187,13 +186,13 @@ st.subheader("⭐ Q3: Popularity vs Rating")
 
 fig3, ax3 = plt.subplots(figsize=(12,6))
 sns.scatterplot(
-    data=filtered_df, 
-    x='members', 
-    y='rating', 
-    hue='type', 
-    size='episodes', 
-    sizes=(50,300), 
-    alpha=0.6, 
+    data=filtered_df,
+    x='members',
+    y='rating',
+    hue='type',
+    size='episodes',
+    sizes=(50,300),
+    alpha=0.6,
     ax=ax3
 )
 ax3.set_xscale('log')
@@ -210,14 +209,13 @@ col1, col2 = st.columns(2)
 with col1:
     fig4, ax4 = plt.subplots(figsize=(8,6))
     sns.scatterplot(
-        data=filtered_df, 
-        x='episodes', 
-        y='rating', 
-        hue='episodelength', 
+        data=filtered_df,
+        x='episodes',
+        y='rating',
+        hue='episodelength',
         ax=ax4
     )
 
-    # Safe correlation
     corr_df = filtered_df[['episodes','rating']].dropna()
     corr = corr_df.corr().iloc[0,1] if len(corr_df) > 1 else np.nan
 
@@ -256,4 +254,4 @@ with st.expander("📋 Full Dataset Preview"):
 st.markdown("---")
 st.markdown("*Complete EDA analysis from your Jupyter notebook, now interactive! 💫*")
 
-
+   
