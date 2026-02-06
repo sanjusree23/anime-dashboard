@@ -14,7 +14,8 @@ st.set_page_config(page_title="Anime Analysis Dashboard", layout="wide")
 # ===============================
 @st.cache_data
 def load_and_clean_data():
-    df = pd.read_csv("C:\\Users\\sanju sree\\Downloads\\anime_dashboard\\anime.csv")
+  df = pd.read_csv("anime.csv")
+
 
     # Keep relevant columns
     cols = ['title','type','episodes','members','score',
@@ -254,4 +255,5 @@ with st.expander("📋 Full Dataset Preview"):
 # ===============================
 st.markdown("---")
 st.markdown("*Complete EDA analysis from your Jupyter notebook, now interactive! 💫*")
+
 
