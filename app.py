@@ -254,3 +254,4 @@ with st.expander("📋 Full Dataset Preview"):
 # ===============================
 st.markdown("---")
 st.markdown("*Complete EDA analysis from your Jupyter notebook, now interactive! 💫*")
+
